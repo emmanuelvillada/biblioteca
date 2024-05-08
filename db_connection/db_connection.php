@@ -1,18 +1,16 @@
 <?php
 class db_connection
 {
-
-    private $connection;
-    private $host = "localhost";
-    private $user = "root";
-    private $password = "";
-    private $database = "biblioteca";
-    public $pdo;
+    private $pdo;
 
     public function __construct()
     {
-        $this->connection = new PDO("mysql:host=$this->host;dbname=$this->database", $this->user, $this->password);
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->pdo = $this->connection;
+        // Initialize your PDO connection here
+        $this->pdo = new PDO('biblioteca', 'root', '');
+    }
+
+    public function getConnection()
+    {
+        return $this->pdo;
     }
 }

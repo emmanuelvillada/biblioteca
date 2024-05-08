@@ -11,7 +11,7 @@ class user_controller
     }
     public function create(User $user)
     {
-        $pdo = $this->db_connection->pdo;
+        $pdo = $this->db_connection->getConnection();
         try {
             $query = "INSERT INTO user (user_id,username,password,identity) VALUES ?????";
             $stmt = $pdo->prepare($query);
