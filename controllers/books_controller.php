@@ -73,4 +73,13 @@ class books_controller
             return false;
         }
     }
+    public function create (Book $book) {
+        try {
+            $pdo = $this->db->getConnection();
+            $sql = "INSERT INTO book (book_id,book_title,book_author,book_description) VALUES (?,?,?,?)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->
+        }catch (PDOException $e) {
+            echo $e->getMessage();
+    }
 }

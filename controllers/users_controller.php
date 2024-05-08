@@ -57,4 +57,5 @@ class user_controller
             echo $e->getMessage();
         }
     }
+    
 }
