@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 class Book
 {
@@ -21,3 +22,13 @@ class Book
         $this->$name = $value;
     }
 }
+=======
+<?php 
+class Book {
+
+    private $id;
+    private $author;
+    private $isbn;
+    
+}
+>>>>>>> d0172122c87f6ddcb20f93030bbfdb305921ba20
