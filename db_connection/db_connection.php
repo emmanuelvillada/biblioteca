@@ -6,7 +6,7 @@ class db_connection
     public function __construct()
     {
         // Initialize your PDO connection here
-        $this->pdo = new PDO('biblioteca', 'root', '');
+        $this->pdo = new PDO('biblioteca', 'root', '1903');
     }
 
     public function getConnection()

@@ -66,22 +66,20 @@ class books_controller
                 return false;
                 //echo "No record found";
                 //header("Location: index.php");
-
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
-    public function create(Book $book)
-    {
+    public function create (Book $book) {
         try {
             $pdo = $this->db->getConnection();
             $sql = "INSERT INTO book (book_id,book_title,book_author,book_description) VALUES (?,?,?,?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(array($book->__get("id"), $book->__get("title")));
-        } catch (PDOException $e) {
+            $stmt->execute();
+        }catch (PDOException $e) {
             echo $e->getMessage();
-        }
     }
+}
 }
