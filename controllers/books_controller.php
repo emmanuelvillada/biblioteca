@@ -72,14 +72,28 @@ class books_controller
             return false;
         }
     }
-    public function create (Book $book) {
+    public function create(Book $book)
+    {
+        $errors = $book->validate();
+             // Validar los datos del libro
+        $errors = $book->validate();
+        if (!empty($errors)) {
+            throw new Exception("Validation errors: " . implode(", ", $errors));
+        }
+
+        // Si la validación es exitosa, procedemos a la inserción en la base de datos
         try {
             $pdo = $this->db->getConnection();
-            $sql = "INSERT INTO book (book_id,book_title,book_author,book_description) VALUES (?,?,?,?)";
+            $sql = "INSERT INTO book (title, author, publication_year, editorial, genre) VALUES (:title, :author, :publication_year, :editorial, :genre)";
             $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':title', $book->__get('title'), PDO::PARAM_STR);  // corrected typo from :tittle to :title
+            $stmt->bindParam(':author', $book->__get('author'), PDO::PARAM_STR);
+            $stmt->bindParam(':publication_year', $book->__get('publication_year'), PDO::PARAM_INT);
+            $stmt->bindParam(':editorial', $book->__get('editorial'), PDO::PARAM_STR);
+            $stmt->bindParam(':genre', $book->__get('genre'), PDO::PARAM_STR);
             $stmt->execute();
-        }catch (PDOException $e) {
-            echo $e->getMessage();
+        } catch (PDOException $e) {
+            throw new Exception("Error al crear el libro: " . $e->getMessage());
+        }
     }
-}
 }

@@ -1,10 +1,12 @@
 <?php
 class User
 {
-    private $username;
+    private $id;
+    private $name;
+    private $lastname;
     private $password;
     private $email;
-    private $identity;
+    private $rol;
 
     public function __get($name)
     {
