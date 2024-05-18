@@ -21,22 +21,31 @@ class books_controller
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            echo '' . $e->getMessage();
+            throw new Exception("Error al crear el libro: " . $e->getMessage());
             return false;
         }
     }
 
-    public function update($id, $data)
+    public function update($id,Book $book)
     {
+        $errors = $book->validate();
+        // Validar los datos del libro
+    $errors = $book->validate();
+    if (!empty($errors)) {
+        throw new Exception("Validation errors: " . implode(", ", $errors));
+    }
         try {
             $pdo = $this->db->getConnection(); // Get the PDO instance
-            $sql = 'UPDATE books SET title = :title, author = :author, author_id = :author_id WHERE id = :id';
+            $sql = 'UPDATE books SET title = :title, author = :author, publication_year = :publication_year,
+            availability = :availability, editorial = :editorial, genre = :genre  WHERE id = :id';
             $stmt = $pdo->prepare($sql);
-
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':title', $data['title'], PDO::PARAM_STR);
-            $stmt->bindParam(':author', $data['author'], PDO::PARAM_STR);
-            $stmt->bindParam(':author_id', $data['author_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':title', $book->__get('title'), PDO::PARAM_STR);
+            $stmt->bindParam(':author', $book->__get('author'), PDO::PARAM_STR);
+            $stmt->bindParam(':publication_year', $book->__get('publication_year'));
+            $stmt->bindParam(':availability', $book->__get('availability'), PDO::PARAM_INT);
+            $stmt->bindParam(':editorial', $book->__get('editorial'), PDO::PARAM_INT);
+            $stmt->bindParam(':genre', $book->__get('genre'), PDO::PARAM_INT);
 
             $stmt->execute();
 

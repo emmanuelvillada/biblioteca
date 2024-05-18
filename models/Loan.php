@@ -9,16 +9,18 @@ class Loan
     private $loan_date;
     private $expected_return_date;
     private $return_date;
-    public function __get($name)
-    {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        } else {
-            return null;
-        }
+
+ // Getter and Setter methods
+
+    public function __get($property) {
+    if (property_exists($this, $property)) {
+        return $this->$property;
     }
-    public function __set($name, $value)
-    {
-        return $this->$name = $value;
+}
+
+public function __set($property, $value) {
+    if (property_exists($this, $property)) {
+        $this->$property = $value;
     }
+}
 }
