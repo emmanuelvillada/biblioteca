@@ -69,12 +69,8 @@ class books_controller
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 return true;
-                //echo "Record deleted successfully";
-                //header("Location: index.php");
             } else {
                 return false;
-                //echo "No record found";
-                //header("Location: index.php");
             }
         } catch (PDOException $e) {
             echo $e->getMessage();

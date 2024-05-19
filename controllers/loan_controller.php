@@ -13,14 +13,22 @@ class loan_controller
 
     public function create(Loan $loan)
     {
+        if(!empty($loan)){
         try {
             $pdo = $this->db->getConnection();
-            $pdo->beginTransaction();
-            $sql = "INSERT INTO prestamo VALUES (:id, :)";
+            $sql = "INSERT INTO prestamo(book_id,user_id, status, token, loan_date, expected_return_date) 
+            VALUES (:book_id, :user_id, :status, :token, :loan_date, :expected_return_date)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(array($loan->__get("username"), $loan->__get("password")));
+            $stmt->bindParam('book_id',$loan->__get('book_id'));
+            $stmt->bindParam('user_id',$loan->__get('user_id'));
+            $stmt->bindParam('status',$loan->__get('status'));
+            $stmt->bindParam('token',$loan->__get('token'));
+            $stmt->bindParam('loan_date',$loan->__get('loan_date'));
+            $stmt->bindParam('expected_return_date',$loan->__get('expected_return_date'));
+            $stmt->execute();
         } catch (PDOException $e) {
-            echo "" . $e->getMessage();
+        throw new Exception($e->getMessage());
         }
+    }
     }
 }

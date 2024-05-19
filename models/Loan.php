@@ -23,4 +23,5 @@ public function __set($property, $value) {
         $this->$property = $value;
     }
 }
+
 }
