@@ -13,48 +13,49 @@ class user_controller
     {
         $pdo = $this->db_connection->getConnection();
         try {
-            $query = "INSERT INTO user (user_id,username,password,identity) VALUES ?????";
+            $query = "INSERT INTO user (name,lastname,password,email,rol) VALUES (:name,:lastname,:password,:email,:rol)";
             $stmt = $pdo->prepare($query);
-            $stmt->execute(array($user->user_id, $user->username, $user->password, $user->identity));
+            $stmt->bindParam(':name', $user->__get('name'));
+            $stmt->bindParam(':lastname', $user->__get('lastname'));
+            $stmt->bindParam(':password', $user->__get('password'));
+            $stmt->bindParam(':email', $user->__get('email'));
+            $stmt->bindParam(':rol', $user->__get('rol'));
+            $stmt->execute();
             return $pdo->lastInsertId();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         }
     }
     public function update(User $user)
     {
         try {
             $pdo = $this->db_connection->pdo;
-            $query = "UPDATE user SET username =?, password =?, identity =? WHERE user_id =?";
+            $query = "UPDATE user SET name = :name, lastname = :lastname, password =:password, email = :email, rol = :rol WHERE id =:id";
             $stmt = $pdo->prepare($query);
-            $stmt->execute(array($user->username, $user->password, $user->identity, $user->user_id));
+            $stmt->bindParam(':name', $user->__get('name'));
+            $stmt->bindParam(':lastname', $user->__get('lastname'));
+            $stmt->bindParam(':password', $user->__get('password'));
+            $stmt->bindParam(':email', $user->__get('email'));
+            $stmt->bindParam(':rol', $user->__get('rol'));
+            $stmt->bindParam(':id', $user->__get('id'));
+            $stmt->execute();
             return $pdo->lastInsertId();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         }
     }
-    public function delete(User $user)
+
+    public function get($name)
     {
         try {
             $pdo = $this->db_connection->pdo;
-            $query = "DELETE FROM user WHERE user_id =?";
+            $query = "SELECT * FROM user where name = :name";
             $stmt = $pdo->prepare($query);
-            $stmt->execute(array($user->user_id));
-            return $pdo->lastInsertId();
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
-    public function read()
-    {
-        try {
-            $pdo = $this->db_connection->pdo;
-            $query = "SELECT * FROM user";
-            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':name', $name);
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            throw new Exception($e->getMessage());
         }
     }
     
