@@ -1,6 +1,6 @@
 <?php
 include_once("../db_connection/db_connection.php");
-include_once '../models/Loan.php';
+include_once ('../models/Loan.php');
 class loan_controller
 {
 
