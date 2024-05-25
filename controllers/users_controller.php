@@ -29,7 +29,7 @@ class user_controller
     public function update(User $user)
     {
         try {
-            $pdo = $this->db_connection->pdo;
+            $pdo = $this->db_connection->getConnection();
             $query = "UPDATE user SET name = :name, lastname = :lastname, password =:password, email = :email, rol = :rol WHERE id =:id";
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':name', $user->__get('name'));
